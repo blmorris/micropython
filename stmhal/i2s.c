@@ -90,7 +90,18 @@ void i2s_init(I2S_HandleTypeDef *i2s) {
     // option for the MCLK
     // Need master/slave options as well
 
-    // Modified from code generated for HAL_I2S_MspInit by MicroXplorer:
+    // Accept a list of pins -
+    // - If two data pins are given, we know we need full duplex
+    // - if only one is given, we determine whether it is send or recv from
+    //   its position in the list
+    // - how do we make sure that a certain pin is configured as send or receive
+    //   in full-duplex mode? Answer - a pin's alt function is fixed, either I2S
+    //   or I2Sext; we set the direction as tx or rx in the I2S/I2Sext config
+    //
+    //   need to create an I2Sext handle!
+
+    I2S_HandleTypeDef *i2s
+	
     GPIO_InitTypeDef GPIO_InitStructure;
     if(i2s->Instance==SPI2) {
 	__SPI2_CLK_ENABLE();
