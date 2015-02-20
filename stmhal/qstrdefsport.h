@@ -424,6 +424,8 @@ Q(AF_INET6)
 Q(SOCK_STREAM)
 Q(SOCK_DGRAM)
 Q(SOCK_RAW)
+Q(SOL_SOCKET)
+Q(SOCK_NONBLOCK)
 
 // for network module
 Q(network)
@@ -452,6 +454,24 @@ Q(ssid)
 Q(key)
 Q(security)
 Q(bssid)
+#endif
+
+// for CC31k class
+#if MICROPY_PY_CC31K
+Q(CC31K)
+Q(disconnect)
+Q(isconnected)
+Q(update)
+Q(sleep)
+Q(ifconfig)
+Q(WEP)
+Q(WPA)
+Q(WPA2)
+Q(ssid)
+Q(key)
+Q(security)
+Q(bssid)
+Q(urn)
 #endif
 
 // for stm module

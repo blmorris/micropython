@@ -33,6 +33,10 @@
 #define MOD_NETWORK_SOCK_DGRAM (2)
 #define MOD_NETWORK_SOCK_RAW (3)
 
+// CC3100 driver
+#define MOD_NETWORK_SOL_SOCKET    (1)
+#define MOD_NETWORK_SOCK_NONBLOCK (24)
+
 struct _mod_network_socket_obj_t;
 
 typedef struct _mod_network_nic_type_t {
@@ -73,6 +77,7 @@ typedef struct _mod_network_socket_obj_t {
 
 extern const mod_network_nic_type_t mod_network_nic_type_wiznet5k;
 extern const mod_network_nic_type_t mod_network_nic_type_cc3k;
+extern const mod_network_nic_type_t mod_network_nic_type_cc31k;
 
 void mod_network_init(void);
 void mod_network_register_nic(mp_obj_t nic);

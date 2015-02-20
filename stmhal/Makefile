@@ -224,6 +224,32 @@ SRC_MOD += $(addprefix $(CC3000_DIR)/src/,\
 	)
 endif
 
+# for CC3100 module
+MICROPY_PY_CC31K = 1 # Comment out to not force CC3100 code to compile
+ifeq ($(MICROPY_PY_CC31K),1)
+CC3100_DIR=drivers/cc3100
+INC += -I$(TOP)/$(CC3100_DIR)/inc
+CFLAGS_MOD += -DMICROPY_PY_CC31K=1
+# Added -fno-strict-aliasing so we can compile the CC31K code from TI
+CFLAGS_MOD += -fno-strict-aliasing
+SRC_MOD += modcc31k.c 
+#SRC_MOD += inet_ntop.c inet_pton.c
+#cc31k.c
+SRC_MOD += $(addprefix $(CC3100_DIR)/src/,\
+	cc31kdrv.c \
+	device.c \
+	driver.c \
+	flowcont.c \
+	fs.c \
+	netapp.c \
+	netcfg.c \
+	nonos.c \
+	socket.c \
+	spawn.c \
+	wlan.c \
+	)
+endif
+
 OBJ =
 OBJ += $(PY_O)
 OBJ += $(addprefix $(BUILD)/, $(SRC_LIB:.c=.o))
