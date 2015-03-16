@@ -147,6 +147,7 @@ SRC_C = \
 	servo.c \
 	dac.c \
 	adc.c \
+	i2s.c \
 
 SRC_S = \
 	startup_stm32f40xx.s \
@@ -165,6 +166,8 @@ SRC_HAL = $(addprefix $(HAL_DIR)/src/,\
 	stm32f4xx_hal_flash_ex.c \
 	stm32f4xx_hal_gpio.c \
 	stm32f4xx_hal_i2c.c \
+	stm32f4xx_hal_i2s.c \
+	stm32f4xx_hal_i2s_ex.c \
 	stm32f4xx_hal_pcd.c \
 	stm32f4xx_hal_pcd_ex.c \
 	stm32f4xx_hal_pwr.c \

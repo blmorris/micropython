@@ -19,6 +19,8 @@
 #define MICROPY_HW_ENABLE_SPI2      (1)
 #define MICROPY_HW_ENABLE_SPI3      (0)
 #define MICROPY_HW_ENABLE_CAN       (1)
+#define MICROPY_HW_ENABLE_I2S2      (1)
+#define MICROPY_HW_ENABLE_I2S3      (0)
 
 // The pyboard has a 32kHz crystal for the RTC
 #define MICROPY_HW_RTC_USE_LSE      (1)

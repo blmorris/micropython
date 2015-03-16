@@ -43,6 +43,7 @@
 #include "readline.h"
 #include "pyexec.h"
 #include "i2c.h"
+#include "i2s.h"
 #include "spi.h"
 #include "uart.h"
 #include "timer.h"
@@ -413,6 +414,10 @@ soft_reset:
     spi_init0();
     pyb_usb_init0();
 
+#if MICROPY_HW_ENABLE_I2S2 || MICROPY_HW_ENABLE_I2S3
+    i2s_init0();
+#endif
+    
     // Initialise the local flash filesystem.
     // Create it if needed, mount in on /flash, and set it as current dir.
     init_flash_fs(reset_mode);

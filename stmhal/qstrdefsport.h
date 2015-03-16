@@ -325,6 +325,9 @@ Q(SLAVE)
 Q(MSB)
 Q(LSB)
 
+// for I2S class
+Q(I2S)
+
 // for Accel object
 Q(Accel)
 Q(x)
