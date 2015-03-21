@@ -553,6 +553,10 @@ soft_reset_exit:
 #if MICROPY_HW_ENABLE_CAN
     can_deinit();
 #endif
+#if MICROPY_HW_ENABLE_I2S2 || MICROPY_HW_ENABLE_I2S3
+    i2s_deinit();
+#endif
+
 
     first_soft_reset = false;
     goto soft_reset;

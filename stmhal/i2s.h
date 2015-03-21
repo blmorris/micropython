@@ -25,13 +25,21 @@
  * THE SOFTWARE.
  */
 
-extern I2S_HandleTypeDef I2SHandle2;
-extern I2S_HandleTypeDef I2SHandle3;
+
+// not present in can.h:
+// extern I2S_HandleTypeDef I2SHandle2;
+// extern I2S_HandleTypeDef I2SHandle3;
+
+
 extern const mp_obj_type_t pyb_i2s_type;
 
 void i2s_init0(void);
-void i2s_init(I2S_HandleTypeDef *i2s);
-I2S_HandleTypeDef *i2s_get_handle(mp_obj_t o);
+void i2s_deinit(void);
+//void i2s_init(I2S_HandleTypeDef *i2s);
+// void i2s_init(pyb_i2s_obj_t *i2s_obj);
+
+// not present in can.h:
+// I2S_HandleTypeDef *i2s_get_handle(mp_obj_t o);
 
 
 

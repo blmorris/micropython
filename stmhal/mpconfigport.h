@@ -163,6 +163,11 @@ extern const struct _mp_obj_module_t mp_module_network;
     /* pointers to all CAN objects (if they have been created) */ \
     struct _pyb_can_obj_t *pyb_can_obj_all[2]; \
     \
+    /* pointers to all I2S objects (if they have been created) */ \
+    /* We define only those I2S objects that are enabled by the port, */ \
+    /* each extra pointer costs 20 bytes of text and 4 bytes of BSS space */ \
+    struct _pyb_i2s_obj_t *pyb_i2s_obj_all[MICROPY_HW_ENABLE_I2S2 + MICROPY_HW_ENABLE_I2S3]; \
+    \
     /* list of registered NICs */ \
     mp_obj_list_t mod_network_nic_list; \
 
