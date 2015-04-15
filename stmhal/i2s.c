@@ -359,19 +359,33 @@ STATIC mp_obj_t pyb_i2s_make_new(mp_obj_t type_in, mp_uint_t n_args,
     // TODO- if no arguments are given and #ifdef PYBV10, set default
     // pin list to the SPI2 pins on the pyboard: Y6, Y5, Y7, Y8
 
-    // check arguments
+#ifdef PYBV10
+    // check arguments -  n_args == 0 is acceptable for the pyboard;
+    // in that case I2S is initialized on the pyboard's SPI2 pins 
+    mp_arg_check_num(n_args, n_kw, 0, MP_OBJ_FUN_ARGS_MAX, true);
+#else
     mp_arg_check_num(n_args, n_kw, 1, MP_OBJ_FUN_ARGS_MAX, true);
-
+#endif
+    
     // get array of pin identifiers, could be name strings or pin objects
     mp_buffer_info_t bufinfo;
     mp_obj_t *pin_names;
     const pin_obj_t *pins[4];
-    mp_obj_get_array(args[0], &bufinfo.len, &pin_names);
+    if (n_args == 0) {
+#ifdef PYBV10	
+	const pin_obj_t *dflt_pins[4] = {&pin_B13, &pin_B12, &pin_B15, &pin_B14};
+	mp_obj_t dflt_pin_tpl = mp_obj_new_tuple(4, (mp_obj_t)dflt_pins);
+	mp_obj_get_array(dflt_pin_tpl, &bufinfo.len, &pin_names);
+#endif
+    } else {
+	mp_obj_get_array(args[0], &bufinfo.len, &pin_names);
+    }
     if ((mp_uint_t) bufinfo.len != 4) {
 	nlr_raise(mp_obj_new_exception_msg_varg(&mp_type_ValueError,
 						"Pin list requires 4 items, \
                                                  %d given", bufinfo.len));
     }
+
     // Get array of pin objects; False / empty values are valid for pins[2] and
     // pins[3]; empty values get set to MP_OBJ_NULL
     for (int i = 0; i < 4; i++) {
