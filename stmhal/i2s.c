@@ -194,40 +194,39 @@ void i2s_deinit(void) {
 /******************************************************************************/
 /* Micro Python bindings for pyb.I2S                                          */
 
-STATIC void pyb_i2s_print(void (*print)(void *env, const char *fmt, ...),
-			  void *env, mp_obj_t self_in, mp_print_kind_t kind) {
+STATIC void pyb_i2s_print(const mp_print_t *print, mp_obj_t self_in, mp_print_kind_t kind) {
     pyb_i2s_obj_t *self = self_in;
 
-    print(env, "I2S(%u on [", self->i2s_id);
+    mp_printf(print, "I2S(%u on [", self->i2s_id);
     for (int i = 0; i < 4; i++) {
 	if (self->pins[i] != MP_OBJ_NULL) {
-	    print(env, "%s ", qstr_str(self->pins[i]->name));
+	    mp_printf(print, "%q ", self->pins[i]->name);
 	} else {
-	    print(env, "None ");
+	    mp_print_str(print, "None ");
 	}	
     }
-    print(env, "\b]");
+    mp_print_str(print, "\b]");
     if (self->is_enabled) {
         if (self->i2s.Init.Mode == I2S_MODE_MASTER_TX ||
 	    self->i2s.Init.Mode == I2S_MODE_MASTER_RX) {
-            print(env, ", I2S.MASTER, MCLK ");
+            mp_print_str(print, ", I2S.MASTER, MCLK ");
 	    if (self->i2s.Init.MCLKOutput == I2S_MCLKOUTPUT_ENABLE) {
-		print(env, "on %s", qstr_str(self->pins[4]->name));
+		mp_printf(print, "on %q", self->pins[4]->name);
 	    } else {
-		print(env, "off");
+		mp_print_str(print, "off");
 	    }
-	    print(env, ", freq=%u", self->i2s.Init.AudioFreq);
+	    mp_printf(print, ", freq=%u", self->i2s.Init.AudioFreq);
         } else if (self->i2s.Init.Mode == I2S_MODE_SLAVE_TX ||
 		   self->i2s.Init.Mode == I2S_MODE_SLAVE_RX) {
-            print(env, ", I2S.SLAVE");
+            mp_print_str(print, ", I2S.SLAVE");
         } else {
 	    // Shouldn't get here if self->is_enabled=true
 	}
-        print(env, ", standard=%u, format=%u, polarity=%u",
+        mp_printf(print, ", standard=%u, format=%u, polarity=%u",
 	      self->i2s.Init.Standard, self->i2s.Init.DataFormat,
 	      self->i2s.Init.CPOL);
     }
-    print(env, ")");
+    mp_print_str(print, ")");
 }
 
 /// \method init(mode, standard=I2S.PHILIPS, dataformat=I2S._16B_EXTENDED,
