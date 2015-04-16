@@ -368,26 +368,26 @@ STATIC mp_obj_t pyb_i2s_make_new(mp_obj_t type_in, mp_uint_t n_args,
 #endif
     
     // get array of pin identifiers, could be name strings or pin objects
-    mp_buffer_info_t bufinfo;
+    mp_uint_t array_len = 0;
     mp_obj_t *pin_names;
-    const pin_obj_t *pins[4];
     if (n_args == 0) {
 #ifdef PYBV10	
 	const pin_obj_t *dflt_pins[4] = {&pin_B13, &pin_B12, &pin_B15, &pin_B14};
-	mp_obj_t dflt_pin_tpl = mp_obj_new_tuple(4, (mp_obj_t)dflt_pins);
-	mp_obj_get_array(dflt_pin_tpl, &bufinfo.len, &pin_names);
+	mp_obj_t dflt_pin_list = mp_obj_new_list(4, (mp_obj_t)dflt_pins);
+	mp_obj_get_array(dflt_pin_list, &array_len, &pin_names);
 #endif
     } else {
-	mp_obj_get_array(args[0], &bufinfo.len, &pin_names);
+	mp_obj_get_array(args[0], &array_len, &pin_names);
     }
-    if ((mp_uint_t) bufinfo.len != 4) {
+    if (array_len != 4) {
 	nlr_raise(mp_obj_new_exception_msg_varg(&mp_type_ValueError,
 						"Pin list requires 4 items, \
-                                                 %d given", bufinfo.len));
+                                                 %d given", array_len));
     }
 
     // Get array of pin objects; False / empty values are valid for pins[2] and
     // pins[3]; empty values get set to MP_OBJ_NULL
+    const pin_obj_t *pins[4];
     for (int i = 0; i < 4; i++) {
         if (mp_obj_is_true(pin_names[i])) {
 	    pins[i] = pin_find(pin_names[i]);
@@ -478,7 +478,6 @@ STATIC mp_obj_t pyb_i2s_make_new(mp_obj_t type_in, mp_uint_t n_args,
     } else {
 	err_code = 1; // pins[0:1] not valid clock and WS for available I2S ports 
     }
-    // Create I2S port if valid pin list is provided
     if (err_code) {
 	nlr_raise(mp_obj_new_exception_msg_varg(&mp_type_ValueError,
 						"Invalid pins for I2S, err: %d", err_code));
